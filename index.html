@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Equipment Borrowing Monitoring System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>EQUIPMENT BORROWING MONITORING SYSTEM</h2>
+      <button id="logoutBtn" style="background: #ef4444;">Logout</button>
+    </div>
+
+    <!-- DASHBOARD SUMMARY CARDS -->
+    <div class="card-grid">
+      <div class="card"><h3>Total Equipment</h3><p id="statTotal">0</p></div>
+      <div class="card"><h3>Available</h3><p id="statAvailable">0</p></div>
+      <div class="card"><h3>Borrowed</h3><p id="statBorrowed">0</p></div>
+      <div class="card"><h3>Returned</h3><p id="statReturned">0</p></div>
+      <div class="card"><h3>Overdue</h3><p id="statOverdue" style="color: #ef4444;">0</p></div>
+    </div>
+
+    <!-- SEARCH AND FILTER -->
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+      <input type="text" id="searchInput" placeholder="Search equipment, code, or borrower..." style="flex: 1;">
+      <select id="filterAvailability">
+        <option value="ALL">All Availability</option>
+        <option value="Available">Available</option>
+        <option value="Borrowed">Borrowed</option>
+      </select>
+      <select id="filterStatus">
+        <option value="ALL">All Status</option>
+        <option value="Borrowed">Borrowed</option>
+        <option value="Returned">Returned</option>
+        <option value="Overdue">Overdue</option>
+      </select>
+    </div>
+
+    <!-- EQUIPMENT MODULE -->
+    <section>
+      <h3>Manage Equipment</h3>
+      <form id="equipmentForm">
+        <input type="hidden" id="eqId">
+        <input type="text" id="eqName" placeholder="Equipment Name (e.g. Epson Projector)" required>
+        <input type="text" id="eqCategory" placeholder="Category (e.g. Projector)" required>
+        <input type="text" id="eqCode" placeholder="Asset Code (e.g. PROJ-001)" required>
+        <select id="eqCondition">
+          <option value="Good">Good</option>
+          <option value="Fair">Fair</option>
+          <option value="For Repair">For Repair</option>
+        </select>
+        <button type="submit" id="saveEqBtn">Add Equipment</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Asset Code</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Condition</th>
+            <th>Availability</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="equipmentTableBody"></tbody>
+      </table>
+    </section>
+
+    <!-- BORROWING TRANSACTIONS MODULE -->
+    <section style="margin-top: 40px;">
+      <h3>Record Borrowing Transaction</h3>
+      <form id="borrowForm">
+        <input type="text" id="borrowerName" placeholder="Borrower Name" required>
+        <select id="borrowerType" required>
+          <option value="Student">Student</option>
+          <option value="Faculty">Faculty</option>
+          <option value="Staff">Staff</option>
+        </select>
+        <input type="text" id="department" placeholder="Department / Office" required>
+        <select id="borrowEquipmentSelect" required>
+          <option value="">-- Select Available Equipment --</option>
+        </select>
+        <label>Borrow Date: <input type="date" id="dateBorrowed" required></label>
+        <label>Due Date: <input type="date" id="dueDate" required></label>
+        <button type="submit">Save Borrowing Transaction</button>
+      </form>
+
+      <h3>Borrowing Transactions Log</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Code & Equipment</th>
+            <th>Borrower</th>
+            <th>Type/Dept</th>
+            <th>Date Borrowed</th>
+            <th>Due Date</th>
+            <th>Date Returned</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="transactionsTableBody"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script type="module">
+    import { checkAuth, logout } from './js/auth.js';
+    import { initEquipment } from './js/equipment.js';
+    import { initTransactions } from './js/transactions.js';
+
+    // Protect dashboard
+    checkAuth();
+
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    // Set default borrow date to today
+    document.getElementById('dateBorrowed').valueToDate = new Date();
+    document.getElementById('dateBorrowed').value = new Date().toISOString().split('T')[0];
+
+    // Initialize modules
+    initEquipment();
+    initTransactions();
+  </script>
+</body>
+</html>
