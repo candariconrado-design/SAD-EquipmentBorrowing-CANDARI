@@ -28,7 +28,9 @@ Access the live application here:
 - **Deployment**: GitHub Pages
 - **Version Control**: Git & GitHub
 
----
+## Demo Accounts
+- **Account 1**: `demo@gmail.com` | Password: `12345`
+- **Account 2**: `demo2@gmail.com` | Password: `123`
 
 ## 📁 Project Structure
 
