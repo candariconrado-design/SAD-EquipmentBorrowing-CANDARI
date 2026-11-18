@@ -3,8 +3,10 @@ import { supabase } from './supabase.js';
 
 export function initEquipment() {
   const equipmentForm = document.getElementById('equipmentForm');
+  const searchInput = document.getElementById('searchInput');
 
   fetchEquipment();
+  if (searchInput) searchInput.addEventListener('input', fetchEquipment);
 
   if (equipmentForm) {
     equipmentForm.addEventListener('submit', async (event) => {
@@ -85,11 +87,17 @@ export async function fetchEquipment() {
   let availableCount = 0;
   let borrowedCount = 0;
 
+  const searchValue = document.getElementById('searchInput')?.value.toLowerCase().trim() || '';
+
   for (const item of (equipment || [])) {
     if (item.availability === 'Available') availableCount++;
     if (item.availability === 'Borrowed') borrowedCount++;
 
-    if (tbody) {
+    const matchesEquipmentSearch =
+      (item.equipment_name || '').toLowerCase().includes(searchValue) ||
+      (item.asset_code || '').toLowerCase().includes(searchValue);
+
+    if (tbody && matchesEquipmentSearch) {
       const tr = document.createElement('tr');
       [item.asset_code, item.equipment_name, item.category, item.condition].forEach(value => {
         const td = document.createElement('td');
