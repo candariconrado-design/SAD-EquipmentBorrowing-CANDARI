@@ -99,3 +99,68 @@ th { background-color: #f1f5f9; }
 .badge-borrowed { background: #fef3c7; color: #92400e; }
 .badge-overdue { background: #fee2e2; color: #991b1b; }
 .badge-returned { background: #e0e7ff; color: #3730a3; }
+
+/* Responsive layout improvements */
+.auth-container {
+  box-sizing: border-box;
+  width: min(100% - 32px, 400px);
+}
+
+.dashboard-container {
+  box-sizing: border-box;
+  width: min(100% - 24px, 1100px);
+}
+
+input, select, button {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+section {
+  overflow-x: auto;
+}
+
+table {
+  min-width: 720px;
+}
+
+@media (max-width: 640px) {
+  .dashboard-container {
+    margin: 12px auto;
+    padding: 8px;
+  }
+
+  .dashboard-container > div:first-child {
+    align-items: flex-start !important;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .dashboard-container h2 {
+    font-size: 1.15rem;
+  }
+
+  .dashboard-container > div:nth-child(2) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body > .auth-container {
+    margin: 48px auto;
+    padding: 20px;
+  }
+
+  #searchInput,
+  #filterAvailability,
+  #filterStatus {
+    min-width: 100%;
+  }
+
+  .dashboard-container > div:nth-child(3) {
+    flex-direction: column;
+  }
+}
