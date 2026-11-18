@@ -15,8 +15,6 @@ A browser-based system for managing college equipment inventory and borrowing/re
 │   ├── auth.js
 │   ├── equipment.js
 │   └── transactions.js
-├── supabase/
-│   └── schema.sql
 └── documentation/
     ├── requirements-traceability.md
     ├── functional-test-cases.md
@@ -28,14 +26,14 @@ A browser-based system for managing college equipment inventory and borrowing/re
 
 1. Open the Supabase project used by this application.
 2. Before changing the database, make a backup/export of existing data.
-3. Open **SQL Editor** and run `supabase/schema.sql`.
-4. If the unique asset-code index reports duplicates, correct duplicate `asset_code` values in the equipment table, then run the SQL again. Do not delete records just to make the script pass.
+3. Open **SQL Editor** and run the corrected database setup SQL supplied separately for this project. Do not run an old or unverified copy.
+4. If the unique asset-code index reports duplicate values, review and correct duplicate `asset_code` values first. Do not delete records just to make the script pass.
 5. In **Authentication > Users**, create an account for the system user. Registration is intentionally not exposed in the public interface.
 6. In `js/supabase.js`, confirm the project URL and anon/publishable key belong to the same Supabase project.
 
 The browser anon/publishable key is designed to be public. Never place a Supabase service-role/secret key in this repository or frontend. RLS must remain enabled.
 
-The SQL creates two RPC functions:
+The database setup SQL creates two RPC functions:
 - `borrow_equipment`: locks an equipment row and inserts the borrowing record + marks the equipment Borrowed in one database transaction.
 - `return_equipment`: marks the transaction Returned and equipment Available in one database transaction, rejecting repeat returns.
 
