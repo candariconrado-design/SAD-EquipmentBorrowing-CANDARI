@@ -60,6 +60,31 @@ create index if not exists borrow_transactions_due_date_idx
 create index if not exists borrow_transactions_status_idx
   on public.borrow_transactions (status);
 
+
+-- Add the expected foreign keys to older installations when they are absent.
+do $
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conname = 'borrow_transactions_equipment_id_fkey'
+      and conrelid = 'public.borrow_transactions'::regclass
+  ) then
+    alter table public.borrow_transactions
+      add constraint borrow_transactions_equipment_id_fkey
+      foreign key (equipment_id) references public.equipment(id);
+  end if;
+
+  if not exists (
+    select 1 from pg_constraint
+    where conname = 'borrow_transactions_user_id_fkey'
+      and conrelid = 'public.borrow_transactions'::regclass
+  ) then
+    alter table public.borrow_transactions
+      add constraint borrow_transactions_user_id_fkey
+      foreign key (user_id) references auth.users(id);
+  end if;
+end $;
+
 alter table public.equipment enable row level security;
 alter table public.borrow_transactions enable row level security;
 
@@ -170,5 +195,7 @@ begin
 end;
 $$;
 
+revoke all on function public.borrow_equipment(bigint, text, text, text, date, date) from public, anon;
+revoke all on function public.return_equipment(bigint) from public, anon;
 grant execute on function public.borrow_equipment(bigint, text, text, text, date, date) to authenticated;
 grant execute on function public.return_equipment(bigint) to authenticated;
