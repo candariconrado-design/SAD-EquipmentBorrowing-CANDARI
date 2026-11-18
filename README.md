@@ -81,3 +81,8 @@ A successful GitHub commit does not prove the deployed app or Supabase project w
 - [Functional Test Cases](documentation/functional-test-cases.md)
 - [Use Case Diagram](documentation/use-case.svg)
 - [Entity Relationship Diagram](documentation/erd.svg)
+
+demo account
+
+email: admin@gmail.com
+password:admin12345
