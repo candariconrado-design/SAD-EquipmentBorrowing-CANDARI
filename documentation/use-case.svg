@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="760" viewBox="0 0 1000 760">
+<rect width="1000" height="760" fill="#fff"/><text x="500" y="42" font-family="Arial" font-size="26" text-anchor="middle" font-weight="bold">Equipment Borrowing System — Use Case Diagram</text>
+<rect x="250" y="80" width="620" height="620" rx="18" fill="#f8fafc" stroke="#334155" stroke-width="3"/><text x="560" y="112" font-family="Arial" font-size="18" text-anchor="middle">Equipment Borrowing and Return Monitoring System</text>
+<g stroke="#2563eb" stroke-width="2" fill="#dbeafe">
+<ellipse cx="560" cy="160" rx="105" ry="28"/><ellipse cx="390" cy="230" rx="105" ry="28"/><ellipse cx="620" cy="230" rx="105" ry="28"/>
+<ellipse cx="390" cy="310" rx="105" ry="28"/><ellipse cx="620" cy="310" rx="105" ry="28"/>
+<ellipse cx="390" cy="390" rx="105" ry="28"/><ellipse cx="620" cy="390" rx="105" ry="28"/>
+<ellipse cx="390" cy="470" rx="105" ry="28"/><ellipse cx="620" cy="470" rx="105" ry="28"/>
+<ellipse cx="390" cy="550" rx="105" ry="28"/><ellipse cx="620" cy="550" rx="105" ry="28"/>
+<ellipse cx="560" cy="630" rx="105" ry="28"/>
+</g>
+<g font-family="Arial" font-size="16" text-anchor="middle" fill="#0f172a">
+<text x="560" y="166">Login</text><text x="390" y="236">View Dashboard</text><text x="620" y="236">Add Equipment</text>
+<text x="390" y="316">View Equipment</text><text x="620" y="316">Edit Equipment</text><text x="390" y="396">Delete Equipment</text><text x="620" y="396">Search Equipment</text>
+<text x="390" y="476">Record Borrowing</text><text x="620" y="476">View Transactions</text><text x="390" y="556">Return Equipment</text><text x="620" y="556">Search / Filter</text><text x="560" y="636">Logout</text>
+</g>
+<g stroke="#334155" stroke-width="2" fill="none"><path d="M165 360 L250 360 M165 360 L250 160 M165 360 L250 630 M165 360 L285 230 M165 360 L285 310 M165 360 L285 390 M165 360 L285 470 M165 360 L285 550"/></g>
+<g fill="#0f172a" font-family="Arial" text-anchor="middle"><circle cx="115" cy="300" r="22" stroke="#0f172a" stroke-width="3" fill="none"/><path d="M115 322 V395 M75 350 H155 M115 395 L80 445 M115 395 L150 445" stroke="#0f172a" stroke-width="4" fill="none"/><text x="115" y="475" font-size="18">System User /</text><text x="115" y="498" font-size="18">Equipment Custodian</text></g>
+</svg>

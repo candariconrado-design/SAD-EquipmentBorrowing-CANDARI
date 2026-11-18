@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Equipment Borrowing Monitoring System</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -111,18 +112,32 @@
     import { initEquipment } from './js/equipment.js';
     import { initTransactions } from './js/transactions.js';
 
-    // Protect dashboard
-    checkAuth();
+    // Wait for Supabase session validation before loading protected data.
+    const isAuthenticated = await checkAuth();
 
-    document.getElementById('logoutBtn').addEventListener('click', logout);
+    if (isAuthenticated) {
+      document.getElementById('logoutBtn').addEventListener('click', logout);
 
-    // Set default borrow date to today
-    document.getElementById('dateBorrowed').valueToDate = new Date();
-    document.getElementById('dateBorrowed').value = new Date().toISOString().split('T')[0];
+      // Use the browser's local calendar date (not UTC) for date inputs.
+      const today = new Date();
+      const localToday = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, '0'),
+        String(today.getDate()).padStart(2, '0')
+      ].join('-');
+      document.getElementById('dateBorrowed').value = localToday;
+      const dueDateInput = document.getElementById('dueDate');
+      dueDateInput.min = localToday;
+      document.getElementById('dateBorrowed').addEventListener('change', (event) => {
+        dueDateInput.min = event.target.value;
+        if (dueDateInput.value && dueDateInput.value < event.target.value) {
+          dueDateInput.value = event.target.value;
+        }
+      });
 
-    // Initialize modules
-    initEquipment();
-    initTransactions();
+      initEquipment();
+      initTransactions();
+    }
   </script>
 </body>
 </html>

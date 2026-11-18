@@ -1,39 +1,68 @@
 // js/auth.js
 import { supabase } from './supabase.js';
 
+// Login form is present only on login.html.
 const loginForm = document.getElementById('loginForm');
 const errorMsg = document.getElementById('errorMsg');
 
-// Login Logic
 if (loginForm) {
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+  loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const email = document.getElementById('email')?.value.trim();
+    const password = document.getElementById('password')?.value;
+
+    if (!email || !password) {
+      if (errorMsg) errorMsg.textContent = 'Please enter your email and password.';
+      return;
+    }
+
+    const submitButton = loginForm.querySelector('button[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+    if (errorMsg) errorMsg.textContent = '';
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      errorMsg.textContent = error.message;
-    } else {
-      window.location.href = 'index.html';
+      if (errorMsg) errorMsg.textContent = error.message;
+      if (submitButton) submitButton.disabled = false;
+      return;
     }
+
+    window.location.href = 'index.html';
   });
 }
 
-// Session Guard Logic (Protect Pages)
+// Returns true only when a valid session exists.
+// index.html relies on this return value before loading protected data.
 export async function checkAuth() {
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session && !window.location.pathname.includes('login.html')) {
-    window.location.href = 'login.html';
+  try {
+    const { data, error } = await supabase.auth.getSession();
+
+    if (error || !data?.session) {
+      if (!window.location.pathname.toLowerCase().endsWith('/login.html')) {
+        window.location.replace('login.html');
+      }
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Unable to verify the login session:', error);
+    if (!window.location.pathname.toLowerCase().endsWith('/login.html')) {
+      window.location.replace('login.html');
+    }
+    return false;
   }
 }
 
-// Logout Logic
 export async function logout() {
-  await supabase.auth.signOut();
-  window.location.href = 'login.html';
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    alert('Unable to log out: ' + error.message);
+    return;
+  }
+
+  window.location.replace('login.html');
 }
