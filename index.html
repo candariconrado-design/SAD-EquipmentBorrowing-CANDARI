@@ -126,6 +126,14 @@
         String(today.getDate()).padStart(2, '0')
       ].join('-');
       document.getElementById('dateBorrowed').value = localToday;
+      const dueDateInput = document.getElementById('dueDate');
+      dueDateInput.min = localToday;
+      document.getElementById('dateBorrowed').addEventListener('change', (event) => {
+        dueDateInput.min = event.target.value;
+        if (dueDateInput.value && dueDateInput.value < event.target.value) {
+          dueDateInput.value = event.target.value;
+        }
+      });
 
       initEquipment();
       initTransactions();
